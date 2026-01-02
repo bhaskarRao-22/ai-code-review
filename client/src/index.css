@@ -1,0 +1,335 @@
+@import "tailwindcss";
+
+/* :root {
+  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+
+  color-scheme: light dark;
+  color: rgba(255, 255, 255, 0.87);
+  background-color: #242424;
+
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+a {
+  font-weight: 500;
+  color: #646cff;
+  text-decoration: inherit;
+}
+a:hover {
+  color: #535bf2;
+}
+
+body {
+  margin: 0;
+  display: flex;
+  place-items: center;
+  min-width: 320px;
+  min-height: 100vh;
+}
+
+h1 {
+  font-size: 3.2em;
+  line-height: 1.1;
+}
+
+button {
+  border-radius: 8px;
+  border: 1px solid transparent;
+  padding: 0.6em 1.2em;
+  font-size: 1em;
+  font-weight: 500;
+  font-family: inherit;
+  background-color: #1a1a1a;
+  cursor: pointer;
+  transition: border-color 0.25s;
+}
+button:hover {
+  border-color: #646cff;
+}
+button:focus,
+button:focus-visible {
+  outline: 4px auto -webkit-focus-ring-color;
+}
+
+@media (prefers-color-scheme: light) {
+  :root {
+    color: #213547;
+    background-color: #ffffff;
+  }
+  a:hover {
+    color: #747bff;
+  }
+  button {
+    background-color: #f9f9f9;
+  }
+} */
+
+button {
+  cursor: pointer;
+}
+
+/* ===========================
+   Global Custom Scrollbar
+   =========================== */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: #334155 #0f172a;
+  /* thumb | track (for Firefox) */
+}
+
+/* Chrome / Edge / Safari */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: #0f172a;
+  /* slate-900 */
+}
+
+::-webkit-scrollbar-thumb {
+  background: #334155;
+  /* slate-700 */
+  border-radius: 999px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #38bdf8;
+  /* sky-400 */
+  box-shadow: 0 0 6px rgba(56, 189, 248, 0.6);
+}
+
+
+/* ---------- AI Grid Scanner Loader ---------- */
+
+.ai-scan-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.ai-scan-card {
+  position: relative;
+  width: 280px;
+  max-width: 80vw;
+  height: 160px;
+  border-radius: 16px;
+  background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+  box-shadow:
+    0 20px 40px rgba(15, 23, 42, 0.8),
+    0 0 0 1px rgba(71, 85, 105, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  overflow: hidden;
+}
+
+/* Grid dots pattern */
+.ai-grid-dots {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  grid-template-columns: repeat(15, 1fr);
+  grid-template-rows: repeat(6, 1fr);
+  gap: 8px;
+  padding: 12px;
+}
+
+.ai-grid-dot {
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: rgba(100, 116, 139, 0.4);
+  transition: all 0.3s ease;
+}
+
+/* Scanning overlay with moving gradient */
+.ai-scan-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg,
+      transparent 0%,
+      rgba(56, 189, 248, 0.1) 30%,
+      rgba(56, 189, 248, 0.2) 50%,
+      rgba(56, 189, 248, 0.1) 70%,
+      transparent 100%);
+  animation: ai-scan-sweep 2.5s ease-in-out infinite;
+  mask: linear-gradient(90deg, transparent, white 20%, white 80%, transparent);
+}
+
+.ai-scan-line {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(90deg,
+      transparent,
+      #38bdf8,
+      #7dd3fc,
+      #38bdf8,
+      transparent);
+  filter: drop-shadow(0 0 8px #38bdf8);
+  animation: ai-scan-line 2.5s ease-in-out infinite;
+}
+
+/* Center orb with pulse effect */
+.ai-center-orb {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 30% 30%, #f0f9ff, #38bdf8);
+  filter: drop-shadow(0 0 20px rgba(56, 189, 248, 0.6));
+  animation: ai-orb-rotate 4s linear infinite;
+}
+
+.ai-orb-glow {
+  position: absolute;
+  inset: -2px;
+  border-radius: 50%;
+  background: conic-gradient(from 0deg,
+      transparent,
+      #38bdf8,
+      #7dd3fc,
+      #38bdf8,
+      transparent);
+  filter: blur(4px);
+  opacity: 0.7;
+  animation: ai-orb-glow-rotate 3s linear infinite;
+}
+
+/* Scanning circles */
+.ai-scan-circles {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.ai-scan-circle {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  border: 1px solid rgba(56, 189, 248, 0.3);
+  animation: ai-scan-pulse 3s ease-out infinite;
+}
+
+.ai-scan-circle-1 {
+  width: 60px;
+  height: 60px;
+  animation-delay: 0s;
+}
+
+.ai-scan-circle-2 {
+  width: 100px;
+  height: 100px;
+  animation-delay: 1s;
+}
+
+.ai-scan-circle-3 {
+  width: 140px;
+  height: 140px;
+  animation-delay: 2s;
+}
+
+/* Active dots when scan passes */
+.ai-scan-overlay:hover~.ai-grid-dots .ai-grid-dot,
+.ai-scan-card:active .ai-grid-dot {
+  background: rgba(56, 189, 248, 0.8);
+  box-shadow: 0 0 8px rgba(56, 189, 248, 0.6);
+}
+
+/* Keyframes */
+@keyframes ai-scan-sweep {
+  0% {
+    transform: translateY(-100%);
+    opacity: 0;
+  }
+
+  20% {
+    opacity: 1;
+  }
+
+  80% {
+    opacity: 1;
+  }
+
+  100% {
+    transform: translateY(100%);
+    opacity: 0;
+  }
+}
+
+@keyframes ai-scan-line {
+  0% {
+    transform: translateY(-100%);
+    opacity: 0;
+  }
+
+  20% {
+    opacity: 1;
+  }
+
+  80% {
+    opacity: 1;
+  }
+
+  100% {
+    transform: translateY(100%);
+    opacity: 0;
+  }
+}
+
+@keyframes ai-orb-rotate {
+  from {
+    transform: translate(-50%, -50%) rotate(0deg);
+  }
+
+  to {
+    transform: translate(-50%, -50%) rotate(360deg);
+  }
+}
+
+@keyframes ai-orb-glow-rotate {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes ai-scan-pulse {
+  0% {
+    transform: translate(-50%, -50%) scale(0.8);
+    opacity: 1;
+  }
+
+  100% {
+    transform: translate(-50%, -50%) scale(1.5);
+    opacity: 0;
+  }
+}
+
+/* Hover effects for interactivity */
+.ai-scan-card:hover .ai-grid-dot {
+  background: rgba(56, 189, 248, 0.6);
+  transition: background 0.2s ease, box-shadow 0.25s ease;
+}
+
+.ai-scan-card:hover .ai-center-orb {
+  filter: drop-shadow(0 0 30px rgba(56, 189, 248, 0.8));
+  transition: filter 0.3s ease;
+}
