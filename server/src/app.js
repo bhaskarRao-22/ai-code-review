@@ -16,7 +16,7 @@ const app = express();
 // Security & parsing middlewares
 app.use(helmet());
 app.use(cors({
-    origin: config.nodeEnv === 'development' ? 'http://localhost:5173' : 'https://ai-code-review-eskd.onrender.com/',
+    origin: config.nodeEnv === 'development' ? 'http://localhost:5173' : 'https://ai-code-review-peach.vercel.app',
     credentials: true,
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
     allowedHeaders: ['Content-Type', 'Authorization'],
