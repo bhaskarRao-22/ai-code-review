@@ -10,14 +10,14 @@ export interface MyBillingResponse {
 }
 
 export async function getMyBillingApi(): Promise<MyBillingResponse> {
-    return apiRequest<MyBillingResponse>('/billing/me', {
+    return apiRequest<MyBillingResponse>('/api/billing/me', {
         method: 'GET',
         auth: true
     });
 }
 
 export async function upgradePlanApi(planName: string): Promise<any> {
-    return apiRequest("/billing/upgrade", {
+    return apiRequest("/api/billing/upgrade", {
         method: "POST",
         auth: true,
         body: { planName }
