@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import { createSimpleReviewApi, type SimpleReviewResult } from './reviews.api';
 import { useToast } from '../../components/ToastProvider';
 import CodeBlock from '../../components/CodeBlock';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion } from 'framer-motion';
 
 export default function ReviewPage() {
     const { showToast } = useToast();
