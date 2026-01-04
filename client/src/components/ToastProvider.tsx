@@ -41,15 +41,15 @@ export function ToastProvider({ children }: { children: ReactNode }) {
         <ToastContext.Provider value={{ showToast }}>
             {children}
             {/* Toast container */}
-            <div className="fixed top-4 right-4 z-50 space-y-2">
+            <div className="fixed top-4 left-1/2 -translate-x-1/2 lg:left-auto lg:right-4 lg:translate-x-0 z-50 space-y-2 max-w-[calc(100vw-2rem)]">
                 {toasts.map((toast) => (
                     <div
                         key={toast.id}
-                        className={`max-w-xs rounded-xl border px-3 py-2 text-xs shadow-lg backdrop-blur bg-slate-900/90 ${toast.type === 'success'
-                                ? 'border-emerald-500/60 text-emerald-100'
-                                : toast.type === 'error'
-                                    ? 'border-red-500/70 text-red-100'
-                                    : 'border-sky-500/70 text-sky-100'
+                        className={`max-w-xs w-full rounded-xl border px-3 py-2 text-xs shadow-lg backdrop-blur bg-slate-900/90 ${toast.type === 'success'
+                            ? 'border-emerald-500/60 text-emerald-100'
+                            : toast.type === 'error'
+                                ? 'border-red-500/70 text-red-100'
+                                : 'border-sky-500/70 text-sky-100'
                             }`}
                     >
                         <p className="font-medium mb-0.5">
@@ -59,7 +59,7 @@ export function ToastProvider({ children }: { children: ReactNode }) {
                                     ? 'Error'
                                     : 'Info'}
                         </p>
-                        <p className="text-[11px] leading-snug">{toast.message}</p>
+                        <p className="text-[11px] leading-snug break-words">{toast.message}</p>
                     </div>
                 ))}
             </div>

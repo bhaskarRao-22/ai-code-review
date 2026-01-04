@@ -154,14 +154,15 @@ export default function ReviewHistoryPage() {
     return (
         <div className="h-full flex flex-col">
             <div className="mb-3">
-                <h2 className="text-lg font-semibold">Review History</h2>
+                <h2 className="text-base lg:text-lg font-semibold">Review History</h2>
                 <p className="text-xs text-slate-400">
                     Search your past code reviews, or filter by AI provider and language.
                 </p>
 
-                <div className="mt-3 flex flex-wrap items-center gap-2">
+                {/* Mobile: Stack filters vertically */}
+                <div className="mt-3 flex flex-col sm:flex-row sm:items-center gap-2">
                     {/* Search box */}
-                    <div className="flex-1 min-w-[160px]">
+                    <div className="w-full sm:flex-1 min-w-0">
                         <input
                             type="text"
                             value={search}
@@ -171,48 +172,50 @@ export default function ReviewHistoryPage() {
                         />
                     </div>
 
-                    {/* Provider filter */}
-                    <select
-                        value={providerFilter}
-                        onChange={(e) => setProviderFilter(e.target.value as any)}
-                        className="rounded-lg border border-slate-800 bg-slate-950 px-2 py-1.5 text-xs text-slate-100 outline-none focus:border-sky-500"
-                    >
-                        <option value="all">All providers</option>
-                        <option value="gemini">Gemini</option>
-                        <option value="groq">Groq</option>
-                        <option value="openai">OpenAI</option>
-                    </select>
+                    <div className="flex gap-2">
+                        {/* Provider filter */}
+                        <select
+                            value={providerFilter}
+                            onChange={(e) => setProviderFilter(e.target.value as any)}
+                            className="flex-1 rounded-lg border border-slate-800 bg-slate-950 px-2 py-1.5 text-xs text-slate-100 outline-none focus:border-sky-500"
+                        >
+                            <option value="all">All providers</option>
+                            <option value="gemini">Gemini</option>
+                            <option value="groq">Groq</option>
+                            <option value="openai">OpenAI</option>
+                        </select>
 
-                    {/* Language filter */}
-                    <select
-                        value={languageFilter}
-                        onChange={(e) => setLanguageFilter(e.target.value as any)}
-                        className="rounded-lg border border-slate-800 bg-slate-950 px-2 py-1.5 text-xs text-slate-100 outline-none focus:border-sky-500"
-                    >
-                        <option value="all">All languages</option>
-                        <option value="javascript">JavaScript</option>
-                        <option value="typescript">TypeScript</option>
-                        <option value="jsx">React (JSX)</option>
-                        <option value="tsx">React (TSX)</option>
-                    </select>
 
+                        {/* Language filter */}
+                        <select
+                            value={languageFilter}
+                            onChange={(e) => setLanguageFilter(e.target.value as any)}
+                            className="flex-1 rounded-lg border border-slate-800 bg-slate-950 px-2 py-1.5 text-xs text-slate-100 outline-none focus:border-sky-500"
+                        >
+                            <option value="all">All languages</option>
+                            <option value="javascript">JavaScript</option>
+                            <option value="typescript">TypeScript</option>
+                            <option value="jsx">React (JSX)</option>
+                            <option value="tsx">React (TSX)</option>
+                        </select>
+                    </div>
                     {/* Apply & Clear buttons */}
                     <button
                         onClick={() => loadReviews()}
-                        className="rounded-lg bg-sky-500 px-3 py-1.5 text-xs font-medium text-white hover:bg-sky-600"
+                        className="flex-1 rounded-lg bg-sky-500 px-3 py-1.5 text-xs font-medium text-white hover:bg-sky-600"
                     >
                         Apply
                     </button>
                     <button
                         onClick={handleClearFilters}
-                        className="rounded-lg border border-slate-700 bg-slate-900 px-3 py-1.5 text-xs font-medium text-slate-100 hover:bg-slate-800"
+                        className="flex-1 rounded-lg border border-slate-700 bg-slate-900 px-3 py-1.5 text-xs font-medium text-slate-100 hover:bg-slate-800"
                     >
                         Clear
                     </button>
                 </div>
             </div>
 
-            <div className="flex-1 min-h-0 h-full max-h-full sm:max-h-[450px] md:max-h-[520px] lg:max-h-[600px] xl:max-h-[400px] 2xl:max-h-[760px] transition-all duration-300 overflow-auto rounded-xl border border-slate-800">
+            <div className="flex-1 min-h-0 overflow-auto rounded-xl border border-slate-800">
                 {loading ? (
                     <p className="text-xs text-slate-400 px-3 py-3">Loading history...</p>
                 ) : error ? (
@@ -222,80 +225,84 @@ export default function ReviewHistoryPage() {
                         No reviews found for this filter.
                     </p>
                 ) : (
-                    <table className="min-w-full text-xs">
-                        <thead className="bg-slate-900/80 sticky top-0 z-10">
-                            <tr>
-                                <th className="px-3 py-2 text-left font-medium text-slate-300">
-                                    Title
-                                </th>
-                                <th className="px-3 py-2 text-left font-medium text-slate-300">
-                                    Language
-                                </th>
-                                <th className="px-3 py-2 text-left font-medium text-slate-300">
-                                    Provider
-                                </th>
-                                <th className="px-3 py-2 text-left font-medium text-slate-300">
-                                    Status
-                                </th>
-                                <th className="px-3 py-2 text-left font-medium text-slate-300">
-                                    Created
-                                </th>
-                                <th className="px-3 py-2 text-left font-medium text-slate-300">
-                                    Actions
-                                </th>
-                            </tr>
-                        </thead>
-                        <tbody className="divide-y divide-slate-800 bg-slate-950/60">
-                            {items.map((item) => (
-                                <tr key={item._id}>
-                                    <td className="px-3 py-2 text-slate-100">
-                                        {item.title || 'Untitled review'}
-                                    </td>
-                                    <td className="px-3 py-2 text-slate-300">{item.language}</td>
-                                    <td className="px-3 py-2 text-slate-300 uppercase text-[11px]">
-                                        {item.provider}
-                                    </td>
-                                    <td className="px-3 py-2">
-                                        <span
-                                            className={`inline-flex rounded-full px-2 py-0.5 text-[11px] ${item.status === 'completed'
-                                                ? 'bg-emerald-900/50 text-emerald-200 border border-emerald-700/70'
-                                                : item.status === 'failed'
-                                                    ? 'bg-red-900/40 text-red-200 border border-red-700/70'
-                                                    : 'bg-slate-800/70 text-slate-200 border border-slate-700/70'
-                                                }`}
-                                        >
-                                            {item.status}
-                                        </span>
-                                    </td>
-                                    <td className="px-3 py-2 text-slate-400">
-                                        {new Date(item.createdAt).toLocaleString()}
-                                    </td>
-                                    <td className="px-3 py-2">
-                                        <button
-                                            onClick={() => handleViewDetails(item._id)}
-                                            className="rounded-md border border-slate-700 bg-slate-800/80 px-2 py-1 text-[11px] text-slate-100 hover:bg-slate-700"
-                                        >
-                                            View
-                                        </button>
-                                    </td>
+                    <div className="min-w-[600px] lg:min-w-0">
+                        <table className="w-full text-xs">
+                            <thead className="bg-slate-900/80 sticky top-0 z-10">
+                                <tr>
+                                    <th className="px-3 py-2 text-left font-medium text-slate-300">
+                                        Title
+                                    </th>
+                                    <th className="px-3 py-2 text-left font-medium text-slate-300 hidden sm:table-cell">
+                                        Language
+                                    </th>
+                                    <th className="px-3 py-2 text-left font-medium text-slate-300 hidden md:table-cell">
+                                        Provider
+                                    </th>
+                                    <th className="px-3 py-2 text-left font-medium text-slate-300">
+                                        Status
+                                    </th>
+                                    <th className="px-3 py-2 text-left font-medium text-slate-300 hidden lg:table-cell">
+                                        Created
+                                    </th>
+                                    <th className="px-3 py-2 text-left font-medium text-slate-3000">
+                                        Actions
+                                    </th>
                                 </tr>
-                            ))}
-                        </tbody>
-                    </table>
+                            </thead>
+                            <tbody className="divide-y divide-slate-800 bg-slate-950/60">
+                                {items.map((item) => (
+                                    <tr key={item._id}>
+                                        <td className="px-3 py-2 text-slate-100 max-w-[120px] truncate">
+                                            {item.title || 'Untitled review'}
+                                        </td>
+                                        <td className="px-3 py-2 text-slate-300 hidden sm:table-cell">
+                                            {item.language}
+                                        </td>
+                                        <td className="px-3 py-2 text-slate-300 uppercase text-[11px] hidden md:table-cell">
+                                            {item.provider}
+                                        </td>
+                                        <td className="px-3 py-2">
+                                            <span
+                                                className={`inline-flex rounded-full px-2 py-0.5 text-[11px] ${item.status === 'completed'
+                                                    ? 'bg-emerald-900/50 text-emerald-200 border border-emerald-700/70'
+                                                    : item.status === 'failed'
+                                                        ? 'bg-red-900/40 text-red-200 border border-red-700/70'
+                                                        : 'bg-slate-800/70 text-slate-200 border border-slate-700/70'
+                                                    }`}
+                                            >
+                                                {item.status}
+                                            </span>
+                                        </td>
+                                        <td className="px-3 py-2 text-slate-400 hidden lg:table-cell">
+                                            {new Date(item.createdAt).toLocaleString()}
+                                        </td>
+                                        <td className="px-3 py-2">
+                                            <button
+                                                onClick={() => handleViewDetails(item._id)}
+                                                className="rounded-md border border-slate-700 bg-slate-800/80 px-2 py-1 text-[11px] text-slate-100 hover:bg-slate-700"
+                                            >
+                                                View
+                                            </button>
+                                        </td>
+                                    </tr>
+                                ))}
+                            </tbody>
+                        </table>
+                    </div>
                 )}
             </div>
 
             {/* Detail modal */}
             {detailOpen && (
-                <div className="fixed inset-0 z-40 flex items-center justify-center bg-black/60 backdrop-blur-sm">
-                    <div className="w-full max-w-5xl max-h-[90vh] rounded-2xl border border-slate-800 bg-slate-950 p-4 flex flex-col">
+                <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm p-4">
+                    <div className="w-full max-w-5xl h-[90vh] rounded-xl lg:rounded-2xl border border-slate-800 bg-slate-950 p-3 lg:p-4 flex flex-col">
                         <div className="flex items-center justify-between mb-3">
-                            <div>
-                                <h3 className="text-sm font-semibold text-slate-100">
+                            <div className="max-w-[70%]">
+                                <h3 className="text-sm font-semibold text-slate-100 truncate">
                                     Review details
                                 </h3>
                                 {detailData && (
-                                    <p className="text-[11px] text-slate-400">
+                                    <p className="text-[11px] text-slate-400 truncate">
                                         {detailData.reviewRequest.language.toUpperCase()} •{' '}
                                         {detailData.reviewRequest.provider.toUpperCase()} •{' '}
                                         {new Date(
@@ -305,21 +312,20 @@ export default function ReviewHistoryPage() {
                                 )}
                             </div>
                             <div>
-                                <button
-                                    onClick={closeDetail}
-                                    className="block ml-auto rounded-md border border-slate-700 bg-red-800/80 px-2 py-1 mb-2 text-[11px] text-slate-200 hover:bg-red-700"
-                                >
-                                    Close
-                                </button>
-
                                 {detailData && (
                                     <button
                                         onClick={() => handleReRun(detailData)}
-                                        className="block rounded-md border border-sky-600 bg-sky-700/70 px-2 py-1 text-[11px] text-white hover:bg-sky-600"
+                                        className="rounded-md border border-sky-600 bg-sky-700/70 px-2 py-1 text-[11px] text-white hover:bg-sky-600 whitespace-nowrap"
                                     >
-                                        Re-Run Review
+                                        Re-Run
                                     </button>
                                 )}
+                                <button
+                                    onClick={closeDetail}
+                                    className="rounded-md border border-slate-700 bg-red-800/80 px-2 py-1 text-[11px] text-slate-200 hover:bg-red-700"
+                                >
+                                    Close
+                                </button>
                             </div>
                         </div>
 

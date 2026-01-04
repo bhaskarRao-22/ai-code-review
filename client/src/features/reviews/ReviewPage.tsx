@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react';
 import { createSimpleReviewApi, type SimpleReviewResult } from './reviews.api';
 import { useToast } from '../../components/ToastProvider';
 import CodeBlock from '../../components/CodeBlock';
+import { motion, AnimatePresence } from 'framer-motion';
 
 export default function ReviewPage() {
     const { showToast } = useToast();
@@ -92,12 +93,12 @@ export default function ReviewPage() {
     const disableInputs = loading;
 
     return (
-        <div className="h-full grid gap-6 lg:grid-cols-2">
+        <div className="h-full flex flex-col lg:grid lg:gap-6 lg:grid-cols-2">
             {/* Left: input panel */}
-            <section className="flex flex-col h-full rounded-2xl border border-slate-800 bg-slate-900/40 p-4">
+            <section className="flex flex-col h-full rounded-xl lg:rounded-2xl border border-slate-800 bg-slate-900/40 p-3 lg:p-4 mb-4 lg:mb-0">
                 <div className="mb-3 flex items-center justify-between">
                     <div>
-                        <h2 className="text-lg font-semibold">New Code Review</h2>
+                        <h2 className="text-base lg:text-lg font-semibold">New Code Review</h2>
                         <p className="text-xs text-slate-400">
                             Paste your code and let AI review it.
                         </p>
@@ -107,7 +108,7 @@ export default function ReviewPage() {
                 {/* Scrollable input area */}
                 <div className="flex-1 min-h-0 flex flex-col">
                     <textarea
-                        className="flex-1 min-h-0 w-full resize-none rounded-xl border border-slate-800 bg-slate-950 p-3 text-sm text-slate-100 outline-none focus:border-sky-500 disabled:opacity-60"
+                        className="flex-1 min-h-0 w-full resize-none rounded-lg lg:rounded-xl border border-slate-800 bg-slate-950 p-3 text-sm text-slate-100 outline-none focus:border-sky-500 disabled:opacity-60"
                         placeholder="Paste your JavaScript/React/Node.js code here..."
                         value={code}
                         onChange={(e) => setCode(e.target.value)}
@@ -121,35 +122,37 @@ export default function ReviewPage() {
                     )}
                 </div>
 
-                {/* Controls */}
-                <div className="mt-3 flex flex-wrap items-center justify-between gap-2">
-                    <select
-                        className="rounded-lg border border-slate-700 bg-slate-900 px-2 py-1 text-xs text-slate-100 disabled:opacity-60"
-                        value={language}
-                        onChange={(e) => setLanguage(e.target.value)}
-                        disabled={disableInputs}
-                    >
-                        <option value="javascript">JavaScript</option>
-                        <option value="typescript">TypeScript</option>
-                        <option value="jsx">React (JSX)</option>
-                        <option value="tsx">React (TSX)</option>
-                    </select>
+                {/* Controls - Stack vertically on mobile */}
+                <div className="mt-3 flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+                    <div className="flex gap-2">
+                        <select
+                            className="flex-1 rounded-lg border border-slate-700 bg-slate-900 px-2 py-1.5 text-xs text-slate-100 disabled:opacity-60"
+                            value={language}
+                            onChange={(e) => setLanguage(e.target.value)}
+                            disabled={disableInputs}
+                        >
+                            <option value="javascript">JavaScript</option>
+                            <option value="typescript">TypeScript</option>
+                            <option value="jsx">React (JSX)</option>
+                            <option value="tsx">React (TSX)</option>
+                        </select>
 
-                    <select
-                        className="rounded-lg border border-slate-700 bg-slate-900 px-2 py-1 text-xs text-slate-100 disabled:opacity-60"
-                        value={provider}
-                        onChange={(e) => setProvider(e.target.value)}
-                        disabled={disableInputs}
-                    >
-                        <option value="gemini">Gemini (default)</option>
-                        <option value="groq">Groq</option>
-                        <option value="openai">OpenAI</option>
-                    </select>
+                        <select
+                            className="flex-1 rounded-lg border border-slate-700 bg-slate-900 px-2 py-1.5 text-xs text-slate-100 disabled:opacity-60"
+                            value={provider}
+                            onChange={(e) => setProvider(e.target.value)}
+                            disabled={disableInputs}
+                        >
+                            <option value="gemini">Gemini (default)</option>
+                            <option value="groq">Groq</option>
+                            <option value="openai">OpenAI</option>
+                        </select>
+                    </div>
 
                     <button
                         onClick={() => handleRunReview()}
                         disabled={loading}
-                        className="rounded-lg bg-sky-500 px-4 py-1.5 text-sm font-medium text-white hover:bg-sky-600 disabled:opacity-60"
+                        className="rounded-lg bg-sky-500 px-4 py-1.5 text-sm font-medium text-white hover:bg-sky-600 disabled:opacity-60 w-full sm:w-auto"
                     >
                         {loading ? 'Reviewing...' : 'Run Review'}
                     </button>
@@ -157,48 +160,61 @@ export default function ReviewPage() {
             </section>
 
             {/* Right: result panel */}
-            <section className="flex flex-col h-full max-h-full sm:max-h-[280px] md:max-h-[520px] lg:max-h-[600px] xl:max-h-[503px] 2xl:max-h-[900px] transition-all duration-300 rounded-2xl border border-slate-800 bg-slate-900/40 p-4">
-                <h2 className="text-lg font-semibold mb-2">Review Result</h2>
+            <section className="flex flex-col h-full rounded-xl lg:rounded-2xl border border-slate-800 bg-slate-900/40 p-3 lg:p-4">
+                <h2 className="text-base lg:text-lg font-semibold mb-2">Review Result</h2>
 
                 <div className="flex-1 min-h-0 overflow-y-auto pr-1">
                     {/* Loader state */}
                     {loading && (
-                        <div className="h-full flex flex-col items-center justify-center text-slate-200">
-                            <div className="ai-scan-wrapper">
-                                <div className="ai-scan-card">
-                                    {/* Grid dots background */}
-                                    <div className="ai-grid-dots">
-                                        {Array.from({ length: 90 }).map((_, i) => (
-                                            <div key={i} className="ai-grid-dot" />
-                                        ))}
+                        <div className="h-full flex flex-col items-center justify-center text-slate-200 py-8">
+                            <motion.div
+                                initial={{ opacity: 0, scale: 0.8 }}
+                                animate={{ opacity: 1, scale: 1 }}
+                                className="ai-scan-wrapper scale-75 lg:scale-100"
+                            >
+                                <div className="ai-scan-wrapper scale-75 lg:scale-100">
+                                    <div className="ai-scan-card">
+                                        {/* Grid dots background */}
+                                        <div className="ai-grid-dots">
+                                            {Array.from({ length: 90 }).map((_, i) => (
+                                                <div key={i} className="ai-grid-dot" />
+                                            ))}
+                                        </div>
+
+                                        {/* Scanning overlay with gradient */}
+                                        <div className="ai-scan-overlay">
+                                            <div className="ai-scan-line" />
+                                        </div>
+
+                                        {/* Center orb */}
+                                        <div className="ai-center-orb">
+                                            <div className="ai-orb-glow" />
+                                        </div>
+
+                                        {/* Scanning circles */}
+                                        <div className="ai-scan-circles">
+                                            <div className="ai-scan-circle ai-scan-circle-1" />
+                                            <div className="ai-scan-circle ai-scan-circle-2" />
+                                            <div className="ai-scan-circle ai-scan-circle-3" />
+                                        </div>
                                     </div>
 
-                                    {/* Scanning overlay with gradient */}
-                                    <div className="ai-scan-overlay">
-                                        <div className="ai-scan-line" />
-                                    </div>
-
-                                    {/* Center orb */}
-                                    <div className="ai-center-orb">
-                                        <div className="ai-orb-glow" />
-                                    </div>
-
-                                    {/* Scanning circles */}
-                                    <div className="ai-scan-circles">
-                                        <div className="ai-scan-circle ai-scan-circle-1" />
-                                        <div className="ai-scan-circle ai-scan-circle-2" />
-                                        <div className="ai-scan-circle ai-scan-circle-3" />
+                                    <div className="text-center mt-6">
+                                        <p className="text-sm font-medium">AI is reviewing your code…</p>
+                                        <p className="text-xs text-slate-400 mt-1 max-w-xs">
+                                            Running static checks, scanning for bugs, security risks and performance
+                                            issues.
+                                        </p>
                                     </div>
                                 </div>
-
-                                <div className="text-center mt-6">
-                                    <p className="text-sm font-medium">AI is reviewing your code…</p>
-                                    <p className="text-xs text-slate-400 mt-1 max-w-xs">
-                                        Running static checks, scanning for bugs, security risks and performance
-                                        issues.
-                                    </p>
-                                </div>
-                            </div>
+                            </motion.div>
+                            <motion.p
+                                initial={{ opacity: 0, y: 10 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                className="text-sm font-medium mt-6"
+                            >
+                                AI is reviewing your code…
+                            </motion.p>
                         </div>
                     )}
 

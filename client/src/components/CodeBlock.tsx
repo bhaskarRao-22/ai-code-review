@@ -52,14 +52,14 @@ export default function CodeBlock({
             className={`relative rounded-lg border border-slate-800 bg-slate-950 overflow-hidden ${className || ''}`}
         >
             {/* Header (title + copy button) */}
-            <div className="flex items-center justify-between px-3 py-2 border-b border-slate-800/70 bg-slate-900/80">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between px-3 py-2 border-b border-slate-800/70 bg-slate-900/80 gap-2">
                 <div className="flex items-center gap-2">
                     {title && (
-                        <span className="text-[11px] font-medium text-slate-200">
+                        <span className="text-[11px] font-medium text-slate-200 truncate">
                             {title}
                         </span>
                     )}
-                    <span className="text-[10px] px-1.5 py-0.5 rounded bg-slate-800/80 text-slate-300 uppercase">
+                    <span className="text-[10px] px-1.5 py-0.5 rounded bg-slate-800/80 text-slate-300 uppercase shrink-0">
                         {safeLanguage}
                     </span>
                 </div>
@@ -67,8 +67,7 @@ export default function CodeBlock({
                 <button
                     type="button"
                     onClick={handleCopy}
-                    className="inline-flex items-center gap-1 rounded-md bg-slate-800/90 px-2 py-1 text-[11px] font-medium text-slate-100 border border-slate-700 hover:bg-slate-700 transition"
-                >
+                    className="inline-flex items-center justify-center gap-1 rounded-md bg-slate-800/90 px-2 py-1 text-[11px] font-medium text-slate-100 border border-slate-700 hover:bg-slate-700 transition w-full sm:w-auto">
                     <svg width="13" height="13" viewBox="0 0 24 24">
                         <path
                             d="M9 9H19V19H9V9Z"
