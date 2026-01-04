@@ -99,7 +99,7 @@ export default function AppLayout() {
                         History
                     </NavLink>
 
-                    <NavLink
+                    {/* <NavLink
                         to="/app/upgrade"
                         className={({ isActive }) =>
                             `block rounded-lg px-3 py-2 text-sm ${isActive
@@ -109,7 +109,7 @@ export default function AppLayout() {
                         }
                     >
                         Upgrade Plan
-                    </NavLink>
+                    </NavLink> */}
 
                 </nav>
 

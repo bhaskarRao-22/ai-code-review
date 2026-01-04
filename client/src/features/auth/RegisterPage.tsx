@@ -8,9 +8,9 @@ import { setAccessToken } from '../../lib/token';
 export default function RegisterPage() {
     const navigate = useNavigate();
     const { showToast } = useToast();
-    const [name, setName] = useState('Bhaskar');
-    const [email, setEmail] = useState('bhaskar@example.com');
-    const [password, setPassword] = useState('password123');
+    const [name, setName] = useState('');     // 'Bhaskar'
+    const [email, setEmail] = useState('');     // 'bhaskar@example.com'  
+    const [password, setPassword] = useState('');     // 'password123'
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState<string | null>(null);
 
