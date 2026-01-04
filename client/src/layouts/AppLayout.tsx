@@ -78,9 +78,11 @@ export default function AppLayout() {
                 </div>
 
                 {credits !== null && (
-                    <div className="text-xs px-2 py-1 rounded-full bg-sky-500/15 border border-sky-500/40">
-                        <span className="h-1.5 w-1.5 rounded-full bg-emerald-400 animate-pulse" />
-                        <span className="text-[11px] text-sky-100"> Credits: <span className="font-semibold">{credits}</span> </span>
+                    <div className="flex items-center gap-1 text-xs px-2 py-1 rounded-full bg-sky-500/15 border border-sky-500/40">
+                        <span className="inline-block h-1.5 w-1.5 rounded-full bg-emerald-400 animate-pulse" />
+                        <span className="text-[11px] text-sky-100">
+                            Credits: <span className="font-semibold">{credits}</span>
+                        </span>
                     </div>
                 )}
             </header>
@@ -98,14 +100,22 @@ export default function AppLayout() {
                 <div className="h-full p-4 flex flex-col">
 
                     {/* Mobile close */}
-                    <div className="flex items-center justify-between mb-6 lg:hidden">
-                        <h2 className="font-semibold">AI Code Review</h2>
-                        {credits !== null && (
-                            <div className="mt-2 inline-flex items-center gap-1 rounded-full border border-sky-500/50 bg-sky-500/10 px-2 py-0.5">
-                                <span className="h-1.5 w-1.5 rounded-full bg-emerald-400 animate-pulse" />
-                                <span className="text-[11px] text-sky-100"> Credits: <span className="font-semibold">{credits}</span> </span>
-                            </div>
-                        )}
+                    <div className="flex items-start justify-between mb-6 lg:hidden">
+                        {/* LEFT */}
+                        <div className="flex flex-col">
+                            <h2 className="font-semibold">AI Code Review</h2>
+
+                            {credits !== null && (
+                                <div className="mt-2 inline-flex items-center gap-1 rounded-full border border-sky-500/50 bg-sky-500/10 px-2 py-0.5 w-fit">
+                                    <span className="h-1.5 w-1.5 rounded-full bg-emerald-400 animate-pulse" />
+                                    <span className="text-[11px] text-sky-100">
+                                        Credits: <span className="font-semibold">{credits}</span>
+                                    </span>
+                                </div>
+                            )}
+                        </div>
+
+                        {/* RIGHT */}
                         <button
                             onClick={() => setSidebarOpen(false)}
                             className="p-2 rounded-lg hover:bg-slate-800"
