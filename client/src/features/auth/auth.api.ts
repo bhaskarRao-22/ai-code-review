@@ -6,7 +6,7 @@ export async function registerApi(payload: {
     email: string;
     password: string;
 }): Promise<AuthResponse> {
-    return apiRequest<AuthResponse>('/auth/register', {
+    return apiRequest<AuthResponse>('/api/auth/register', {
         method: 'POST',
         body: payload
     });
@@ -16,21 +16,21 @@ export async function loginApi(payload: {
     email: string;
     password: string;
 }): Promise<AuthResponse> {
-    return apiRequest<AuthResponse>('/auth/login', {
+    return apiRequest<AuthResponse>('/api/auth/login', {
         method: 'POST',
         body: payload
     });
 }
 
 export async function meApi(): Promise<{ success: boolean; user: User }> {
-    return apiRequest<{ success: boolean; user: User }>('/auth/me', {
+    return apiRequest<{ success: boolean; user: User }>('/api/auth/me', {
         method: 'GET',
         auth: true
     });
 }
 
 export async function logoutApi(): Promise<{ success: boolean }> {
-    return apiRequest<{ success: boolean }>('/auth/logout', {
+    return apiRequest<{ success: boolean }>('/api/auth/logout', {
         method: 'POST',
         auth: true
     });
