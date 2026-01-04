@@ -8,8 +8,8 @@ import { setAccessToken } from '../../lib/token';
 export default function LoginPage() {
     const navigate = useNavigate();
     const { showToast } = useToast();
-    const [email, setEmail] = useState('bhaskar@example.com'); // dev ke liye default
-    const [password, setPassword] = useState('password123');
+    const [email, setEmail] = useState(''); // bhaskar@example.com
+    const [password, setPassword] = useState(''); // password123 
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState<string | null>(null);
 
