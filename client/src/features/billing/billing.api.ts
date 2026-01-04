@@ -10,7 +10,7 @@ export interface MyBillingResponse {
 }
 
 export async function getMyBillingApi(): Promise<MyBillingResponse> {
-    return apiRequest<MyBillingResponse>('/api/billing/me', {
+    return apiRequest<MyBillingResponse>('/billing/me', {
         method: 'GET',
         auth: true
     });
