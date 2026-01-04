@@ -78,9 +78,10 @@ export default function AppLayout() {
                 </div>
 
                 {credits !== null && (
-                    <span className="text-xs px-2 py-1 rounded-full bg-sky-500/15 border border-sky-500/40">
-                        {credits}
-                    </span>
+                    <div className="text-xs px-2 py-1 rounded-full bg-sky-500/15 border border-sky-500/40">
+                        <span className="h-1.5 w-1.5 rounded-full bg-emerald-400 animate-pulse" />
+                        <span className="text-[11px] text-sky-100"> Credits: <span className="font-semibold">{credits}</span> </span>
+                    </div>
                 )}
             </header>
 
