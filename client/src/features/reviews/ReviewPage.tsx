@@ -123,10 +123,10 @@ export default function ReviewPage() {
                 </div>
 
                 {/* Controls - Stack vertically on mobile */}
-                <div className="mt-3 flex flex-col sm:flex-row sm:items-center justify-between gap-2">
-                    <div className="flex gap-2">
+                <div className="mt-3 flex flex-col xs:flex-row xs:items-center justify-between gap-2">
+                    <div className="flex flex-col xs:flex-row gap-2 w-full xs:w-auto">
                         <select
-                            className="flex-1 rounded-lg border border-slate-700 bg-slate-900 px-2 py-1.5 text-xs text-slate-100 disabled:opacity-60"
+                            className="flex-1 xs:flex-none xs:w-32 rounded-lg border border-slate-700 bg-slate-900 px-2 py-1.5 text-xs text-slate-100 disabled:opacity-60"
                             value={language}
                             onChange={(e) => setLanguage(e.target.value)}
                             disabled={disableInputs}
@@ -138,7 +138,7 @@ export default function ReviewPage() {
                         </select>
 
                         <select
-                            className="flex-1 rounded-lg border border-slate-700 bg-slate-900 px-2 py-1.5 text-xs text-slate-100 disabled:opacity-60"
+                            className="flex-1 xs:flex-none xs:w-32 rounded-lg border border-slate-700 bg-slate-900 px-2 py-1.5 text-xs text-slate-100 disabled:opacity-60"
                             value={provider}
                             onChange={(e) => setProvider(e.target.value)}
                             disabled={disableInputs}
@@ -152,7 +152,7 @@ export default function ReviewPage() {
                     <button
                         onClick={() => handleRunReview()}
                         disabled={loading}
-                        className="rounded-lg bg-sky-500 px-4 py-1.5 text-sm font-medium text-white hover:bg-sky-600 disabled:opacity-60 w-full sm:w-auto"
+                        className="rounded-lg bg-sky-500 px-4 py-2 text-sm font-medium text-white hover:bg-sky-600 disabled:opacity-60 w-full xs:w-auto"
                     >
                         {loading ? 'Reviewing...' : 'Run Review'}
                     </button>
