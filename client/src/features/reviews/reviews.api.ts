@@ -32,7 +32,7 @@ export async function createSimpleReviewApi(payload: {
     provider: string;
     code: string;
 }): Promise<CreateReviewResponse> {
-    return apiRequest<CreateReviewResponse>('/reviews/simple', {
+    return apiRequest<CreateReviewResponse>('/api/reviews/simple', {
         method: 'POST',
         body: payload,
         auth: true
@@ -65,7 +65,7 @@ export async function listReviewsApi(params?: {
     }
 
     const query = search.toString();
-    const path = query ? `/reviews?${query}` : '/reviews';
+    const path = query ? `/api/reviews?${query}` : '/api/reviews';
 
     return apiRequest(path, {
         method: 'GET',
@@ -101,7 +101,7 @@ export interface ReviewDetailResponse {
 }
 
 export async function getReviewByIdApi(id: string): Promise<ReviewDetailResponse> {
-    return apiRequest<ReviewDetailResponse>(`/reviews/${id}`, {
+    return apiRequest<ReviewDetailResponse>(`/api/reviews/${id}`, {
         method: 'GET',
         auth: true
     });
