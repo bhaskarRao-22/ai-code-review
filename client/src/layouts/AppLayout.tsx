@@ -7,7 +7,7 @@ import { getMyBillingApi } from '../features/billing/billing.api';
 export default function AppLayout() {
     const [checking, setChecking] = useState(true);
     const [isAuthed, setIsAuthed] = useState(false);
-    const [userName, setUserName] = useState('');
+    const [userName, setUserName] = useState<string>('');
     const [credits, setCredits] = useState<number | null>(null);
     const [sidebarOpen, setSidebarOpen] = useState(false);
 
@@ -15,6 +15,7 @@ export default function AppLayout() {
         const token = getAccessToken();
         if (!token) {
             setChecking(false);
+            setIsAuthed(false);
             return;
         }
 
@@ -23,7 +24,6 @@ export default function AppLayout() {
                 const res = await meApi();
                 setUserName(res.user.name);
                 setIsAuthed(true);
-
                 const billing = await getMyBillingApi();
                 setCredits(billing.credits.balance);
             } catch {
@@ -38,6 +38,8 @@ export default function AppLayout() {
     const handleLogout = async () => {
         try {
             await logoutApi();
+        } catch {
+            // ignore
         } finally {
             clearAccessToken();
             window.location.href = '/login';
@@ -58,87 +60,93 @@ export default function AppLayout() {
 
     return (
         <div className="min-h-screen bg-slate-950 text-slate-100 flex flex-col lg:flex-row">
-
-            {/* ================= Mobile Header ================= */}
-            <header className="lg:hidden sticky top-0 z-40 flex items-center justify-between p-4 border-b border-slate-800 bg-slate-900/80 backdrop-blur">
-                <button
-                    onClick={() => setSidebarOpen(true)}
-                    className="p-2 rounded-lg border border-slate-700 bg-slate-800 hover:bg-slate-700"
-                >
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
-                        <path d="M3 6h18M3 12h18M3 18h18" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
-                    </svg>
-                </button>
-
-                <div className="text-center">
-                    <h1 className="text-sm font-semibold">AI Code Review</h1>
-                    <p className="text-[11px] text-slate-400 truncate max-w-[120px]">
-                        Hi, {userName}
-                    </p>
+            {/* Mobile Header - Always visible on mobile */}
+            <div className="lg:hidden flex items-center justify-between p-4 border-b border-slate-800 bg-slate-900/40 sticky top-0 z-40">
+                <div className="flex items-center gap-3">
+                    <button
+                        onClick={() => setSidebarOpen(true)}
+                        className="p-2 rounded-lg border border-slate-700 bg-slate-800 hover:bg-slate-700 transition"
+                    >
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+                            <path d="M3 12H21" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+                            <path d="M3 6H21" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+                            <path d="M3 18H21" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+                        </svg>
+                    </button>
+                    <div>
+                        <h1 className="text-base font-semibold">AI Code Review</h1>
+                        {userName && (
+                            <p className="text-[11px] text-slate-400">Hi, {userName}</p>
+                        )}
+                    </div>
                 </div>
 
+                {/* Credits in mobile header */}
                 {credits !== null && (
-                    <span className="text-xs px-2 py-1 rounded-full bg-sky-500/15 border border-sky-500/40">
-                        {credits}
-                    </span>
+                    <div className="inline-flex items-center gap-1 rounded-full border border-sky-500/50 bg-sky-500/10 px-3 py-1">
+                        <span className="h-2 w-2 rounded-full bg-emerald-400 animate-pulse" />
+                        <span className="text-xs text-sky-100 font-medium">
+                            {credits}
+                        </span>
+                    </div>
                 )}
-            </header>
+            </div>
 
-            {/* ================= Sidebar ================= */}
-            <aside
-                className={`
-                    fixed inset-y-0 left-0 z-50 w-72
-                    bg-slate-950 border-r border-slate-800
-                    transform transition-transform duration-300
-                    lg:static lg:translate-x-0 lg:w-64
-                    ${sidebarOpen ? 'translate-x-0' : '-translate-x-full'}
-                `}
-            >
-                <div className="h-full p-4 flex flex-col">
-
-                    {/* Mobile close */}
+            {/* Sidebar - Hidden on mobile by default */}
+            <div className={`
+                fixed lg:static inset-y-0 left-0 z-50 lg:z-auto
+                transition-transform duration-300 ease-in-out
+                ${sidebarOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'}
+                lg:w-64 w-72 h-full
+            `}>
+                <aside className="w-full h-full border-r border-slate-800 bg-slate-950/95 lg:bg-slate-900/40 p-4 flex flex-col backdrop-blur-lg lg:backdrop-blur-none">
+                    {/* Close button for mobile */}
                     <div className="flex items-center justify-between mb-6 lg:hidden">
-                        <h2 className="font-semibold">AI Code Review</h2>
+                        <h1 className="text-lg font-semibold">AI Code Review</h1>
                         <button
                             onClick={() => setSidebarOpen(false)}
-                            className="p-2 rounded-lg hover:bg-slate-800"
+                            className="p-2 rounded-lg hover:bg-slate-800 text-slate-300"
                         >
-                            ✕
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+                                <path d="M18 6L6 18" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+                                <path d="M6 6L18 18" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+                            </svg>
                         </button>
                     </div>
 
-                    {/* Desktop title */}
-                    <div className="hidden lg:block mb-6">
-                        <h2 className="font-semibold text-lg">AI Code Review</h2>
+                    {/* Desktop title (hidden on mobile) */}
+                    <div className="mb-6 hidden lg:block">
+                        <h1 className="text-lg font-semibold">AI Code Review</h1>
                         {credits !== null && (
-                            <p className="text-xs text-slate-400 mt-1">
-                                Credits: <span className="text-white">{credits}</span>
-                            </p>
+                            <div className="mt-2 inline-flex items-center gap-1 rounded-full border border-sky-500/50 bg-sky-500/10 px-2 py-0.5">
+                                <span className="h-1.5 w-1.5 rounded-full bg-emerald-400 animate-pulse" />
+                                <span className="text-[11px] text-sky-100">
+                                    Credits: <span className="font-semibold">{credits}</span>
+                                </span>
+                            </div>
                         )}
                     </div>
 
-                    {/* Nav */}
                     <nav className="space-y-2 flex-1">
                         <NavLink
                             to="/app/review"
                             onClick={() => setSidebarOpen(false)}
                             className={({ isActive }) =>
-                                `block px-3 py-2 rounded-lg text-sm ${isActive
+                                `block rounded-lg px-3 py-2 text-sm ${isActive
                                     ? 'bg-sky-500 text-white'
-                                    : 'hover:bg-slate-800 text-slate-300'
+                                    : 'text-slate-300 hover:bg-slate-800'
                                 }`
                             }
                         >
                             New Review
                         </NavLink>
-
                         <NavLink
                             to="/app/history"
                             onClick={() => setSidebarOpen(false)}
                             className={({ isActive }) =>
-                                `block px-3 py-2 rounded-lg text-sm ${isActive
+                                `block rounded-lg px-3 py-2 text-sm ${isActive
                                     ? 'bg-sky-500 text-white'
-                                    : 'hover:bg-slate-800 text-slate-300'
+                                    : 'text-slate-300 hover:bg-slate-800'
                                 }`
                             }
                         >
@@ -146,30 +154,40 @@ export default function AppLayout() {
                         </NavLink>
                     </nav>
 
-                    {/* User */}
-                    <div className="border-t border-slate-800 pt-4 text-xs">
+                    {/* User info - Show on both mobile & desktop */}
+                    <div className="mt-4 border-t border-slate-800 pt-3 text-xs text-slate-400">
                         <div className="flex items-center justify-between">
-                            <span className="text-slate-300 truncate">{userName}</span>
+                            <div className="flex items-center gap-2">
+                                <div className="w-6 h-6 rounded-full bg-slate-700 flex items-center justify-center">
+                                    <span className="text-[10px] font-medium">
+                                        {userName?.charAt(0).toUpperCase()}
+                                    </span>
+                                </div>
+                                <div className="truncate max-w-[140px] lg:max-w-none">
+                                    <p className="font-medium text-slate-200 truncate">{userName}</p>
+                                    <p className="text-[10px] truncate">Logged in</p>
+                                </div>
+                            </div>
                             <button
                                 onClick={handleLogout}
-                                className="text-red-400 hover:text-red-500"
+                                className="text-[11px] text-red-300 hover:text-red-400 whitespace-nowrap"
                             >
                                 Logout
                             </button>
                         </div>
                     </div>
-                </div>
-            </aside>
+                </aside>
 
-            {/* ================= Overlay ================= */}
-            {sidebarOpen && (
-                <div
-                    className="fixed inset-0 bg-black/70 z-40 lg:hidden"
-                    onClick={() => setSidebarOpen(false)}
-                />
-            )}
+                {/* Mobile overlay backdrop */}
+                {sidebarOpen && (
+                    <div
+                        className="lg:hidden fixed inset-0 bg-black/70 backdrop-blur-sm z-40"
+                        onClick={() => setSidebarOpen(false)}
+                    />
+                )}
+            </div>
 
-            {/* ================= Main ================= */}
+            {/* Main content area */}
             <main className="flex-1 p-4 lg:p-6">
                 <Outlet />
             </main>
