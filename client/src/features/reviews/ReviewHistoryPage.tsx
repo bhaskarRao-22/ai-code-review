@@ -311,7 +311,7 @@ export default function ReviewHistoryPage() {
                                     </p>
                                 )}
                             </div>
-                            <div className='gap-4'>
+                            <div className='flex gap-4'>
                                 {detailData && (
                                     <button
                                         onClick={() => handleReRun(detailData)}
