@@ -122,7 +122,7 @@ export default function ReviewPage() {
                     )}
                 </div>
 
-                {/* Controls - Stack vertically on mobile */}
+                {/* Controls */}
                 <div className="mt-3 flex flex-col gap-2 lg:flex-row lg:items-center">
                     <div className="flex flex-col xs:flex-row gap-2 w-full xs:w-auto">
                         <select
@@ -156,7 +156,45 @@ export default function ReviewPage() {
                     >
                         {loading ? 'Reviewing...' : 'Run Review'}
                     </button>
+                </div>{/* Controls */}
+                <div className="mt-3 flex flex-col gap-2 lg:flex-row lg:items-center lg:flex-nowrap">
+
+                    {/* Dropdowns */}
+                    <div className="flex flex-col gap-2 xs:flex-row lg:flex-row lg:gap-3">
+                        <select
+                            className="w-full xs:w-auto lg:w-40 rounded-lg border border-slate-700 bg-slate-900 px-2 py-1.5 text-xs text-slate-100 disabled:opacity-60"
+                            value={language}
+                            onChange={(e) => setLanguage(e.target.value)}
+                            disabled={disableInputs}
+                        >
+                            <option value="javascript">JavaScript</option>
+                            <option value="typescript">TypeScript</option>
+                            <option value="jsx">React (JSX)</option>
+                            <option value="tsx">React (TSX)</option>
+                        </select>
+
+                        <select
+                            className="w-full xs:w-auto lg:w-44 rounded-lg border border-slate-700 bg-slate-900 px-2 py-1.5 text-xs text-slate-100 disabled:opacity-60"
+                            value={provider}
+                            onChange={(e) => setProvider(e.target.value)}
+                            disabled={disableInputs}
+                        >
+                            <option value="gemini">Gemini (default)</option>
+                            <option value="groq">Groq</option>
+                            <option value="openai">OpenAI</option>
+                        </select>
+                    </div>
+
+                    {/* Button */}
+                    <button
+                        onClick={() => handleRunReview()}
+                        disabled={loading}
+                        className="w-full lg:w-auto lg:ml-auto rounded-lg bg-sky-500 px-6 py-2 text-sm font-medium text-white hover:bg-sky-600 disabled:opacity-60 whitespace-nowrap"
+                    >
+                        {loading ? 'Reviewing...' : 'Run Review'}
+                    </button>
                 </div>
+
             </section>
 
             {/* Right: result panel */}
