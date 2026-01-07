@@ -212,13 +212,13 @@ export default function ReviewPage() {
                                     </div>
                                 </div>
                             </motion.div>
-                            <motion.p
+                            {/* <motion.p
                                 initial={{ opacity: 0, y: 10 }}
                                 animate={{ opacity: 1, y: 0 }}
                                 className="text-sm font-medium mt-6"
                             >
                                 AI is reviewing your code…
-                            </motion.p>
+                            </motion.p> */}
                         </div>
                     )}
 
