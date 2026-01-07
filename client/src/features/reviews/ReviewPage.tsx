@@ -106,10 +106,10 @@ export default function ReviewPage() {
                 </div>
 
                 {/* Scrollable input area */}
-                <div className="flex-1 min-h-0 flex flex-col">
+                <div className="fflex flex-col min-h-0 lg:flex-1">
                     <textarea
                         className="w-full resize-none rounded-lg lg:rounded-xl border border-slate-800 bg-slate-950
-                        p-3 text-sm text-slate-100 outline-none focus:border-sky-500 disabled:opacity-60 min-h-[220px] flex-none lg:min-h-0 lg:flex-1"
+                        p-3 text-sm text-slate-100 outline-none focus:border-sky-500 disabled:opacity-60 min-h-[260px] lg:min-h-0 lg:flex-1"
                         placeholder="Paste your JavaScript/React/Node.js code here..."
                         value={code}
                         onChange={(e) => setCode(e.target.value)}
