@@ -311,7 +311,7 @@ export default function ReviewHistoryPage() {
                                     </p>
                                 )}
                             </div>
-                            <div>
+                            <div className='gap-4'>
                                 {detailData && (
                                     <button
                                         onClick={() => handleReRun(detailData)}
