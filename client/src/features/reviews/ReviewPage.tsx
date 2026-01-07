@@ -123,7 +123,7 @@ export default function ReviewPage() {
                 </div>
 
                 {/* Controls - Stack vertically on mobile */}
-                <div className="mt-3 flex flex-col gap-2 lg:flex-row lg:items-center lg:gap-3 lg:text-xs lg:py-1.5">
+                <div className="mt-3 flex flex-col gap-2 lg:flex-row lg:items-center">
                     <div className="flex flex-col xs:flex-row gap-2 w-full xs:w-auto">
                         <select
                             className="flex-1 xs:flex-none xs:w-32 rounded-lg border border-slate-700 bg-slate-900 px-2 py-1.5 text-xs text-slate-100 disabled:opacity-60"
