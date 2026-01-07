@@ -225,7 +225,7 @@ export default function ReviewHistoryPage() {
                         No reviews found for this filter.
                     </p>
                 ) : (
-                    <div className="min-w-[600px] lg:min-w-0">
+                    <div className="min-w-[600px] max-h-[400px] lg:min-w-0">
                         <table className="w-full text-xs">
                             <thead className="bg-slate-900/80 sticky top-0 z-10">
                                 <tr>
