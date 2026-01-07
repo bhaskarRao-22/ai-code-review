@@ -16,7 +16,7 @@ function App() {
           <Route path="/register" element={<RegisterPage />} />
         </Route>
 
-        {/* Protected app routes (abhi auth guard baad me add karenge) */}
+        {/* Protected app routes */}
         <Route element={<AppLayout />}>
           <Route path="/app/review" element={<ReviewPage />} />
           <Route path="/app/history" element={<ReviewHistoryPage />} />
