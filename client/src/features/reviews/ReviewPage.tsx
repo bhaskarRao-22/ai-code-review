@@ -128,7 +128,7 @@ export default function ReviewPage() {
                     {/* Dropdowns */}
                     <div className="flex flex-col gap-2 xs:flex-row lg:flex-row lg:gap-3">
                         <select
-                            className="w-full xs:w-auto lg:w-32 rounded-lg border border-slate-700 bg-slate-900 px-2 py-1.5 text-xs text-slate-100 disabled:opacity-60"
+                            className="w-full xs:w-auto lg:w-40 rounded-lg border border-slate-700 bg-slate-900 px-2 py-1.5 text-xs text-slate-100 disabled:opacity-60"
                             value={language}
                             onChange={(e) => setLanguage(e.target.value)}
                             disabled={disableInputs}
@@ -140,7 +140,7 @@ export default function ReviewPage() {
                         </select>
 
                         <select
-                            className="w-full xs:w-auto lg:w-44 rounded-lg border border-slate-700 bg-slate-900 px-2 py-1.5 text-xs text-slate-100 disabled:opacity-60"
+                            className="w-full xs:w-auto lg:w-40 rounded-lg border border-slate-700 bg-slate-900 px-2 py-1.5 text-xs text-slate-100 disabled:opacity-60"
                             value={provider}
                             onChange={(e) => setProvider(e.target.value)}
                             disabled={disableInputs}
