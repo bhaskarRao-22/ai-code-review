@@ -164,7 +164,7 @@ export default function ReviewPage() {
             </section>
 
             {/* Right: result panel */}
-            <section className="flex flex-col h-full rounded-xl lg:rounded-2xl border border-slate-800 bg-slate-900/40 p-3 lg:p-4">
+            <section className="flex flex-col h-full max-h-[500px] rounded-xl lg:rounded-2xl border border-slate-800 bg-slate-900/40 p-3 lg:p-4">
                 <h2 className="text-base lg:text-lg font-semibold mb-2">Review Result</h2>
 
                 <div className="flex-1 min-h-0 overflow-y-auto pr-1">
